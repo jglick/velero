@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-FROM --platform=$BUILDPLATFORM golang:1.16 as builder-env
+FROM golang:1.16 as builder-env
 
 ARG GOPROXY
 ARG PKG
@@ -25,13 +25,13 @@ WORKDIR /go/src/github.com/vmware-tanzu/velero
 
 RUN apt-get update && apt-get install -y bzip2
 
-COPY go.mod go.sum /go/src/github.com/vmware-tanzu/velero
+COPY go.mod go.sum /go/src/github.com/vmware-tanzu/velero/
 RUN go mod download
 
-FROM --platform=$BUILDPLATFORM builder-env as builder
+FROM builder-env as builder
 
-ARG TARGETOS
-ARG TARGETARCH
+ARG TARGETOS=linux
+ARG TARGETARCH=amd64
 ARG TARGETVARIANT
 ARG PKG
 ARG BIN

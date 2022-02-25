@@ -191,12 +191,7 @@ endif
 	-f $(VELERO_DOCKERFILE) .
 
 container:
-ifneq ($(BUILDX_ENABLED), true)
-	$(error $(BUILDX_ERROR))
-endif
-	@docker buildx build --pull \
-	--output=type=$(BUILDX_OUTPUT_TYPE) \
-	--platform $(BUILDX_PLATFORMS) \
+	@docker build \
 	$(addprefix -t , $(IMAGE_TAGS)) \
 	--build-arg=PKG=$(PKG) \
 	--build-arg=BIN=$(BIN) \

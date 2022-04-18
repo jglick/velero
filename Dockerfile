@@ -33,9 +33,9 @@ FROM builder-env as builder
 ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG TARGETVARIANT
-ARG PKG
-ARG BIN
-ARG RESTIC_VERSION
+ARG PKG=github.com/vmware-tanzu/velero
+ARG BIN=velero
+ARG RESTIC_VERSION=0.12.0
 
 WORKDIR /go/src/github.com/vmware-tanzu/velero
 
@@ -48,7 +48,7 @@ ENV GOOS=${TARGETOS} \
 RUN mkdir -p /output/usr/bin && \
     bash ./hack/download-restic.sh
 
-ARG VERSION
+ARG VERSION=dev
 ARG GIT_SHA
 ARG GIT_TREE_STATE
 ENV LDFLAGS="-X ${PKG}/pkg/buildinfo.Version=${VERSION} -X ${PKG}/pkg/buildinfo.GitSHA=${GIT_SHA} -X ${PKG}/pkg/buildinfo.GitTreeState=${GIT_TREE_STATE} -X ${PKG}/pkg/buildinfo.ImageRegistry=${REGISTRY}"
